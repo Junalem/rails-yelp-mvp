@@ -1,0 +1,35 @@
+<div class="container">
+  <h1> <%= @restaurant.name %> </h1>
+  <p class='d-flex'>
+    <% @restaurant.reviews.average(:rating).to_i.times do %>
+      <i class="fa-solid fa-star"></i>
+    <% end %>
+    <% (5 - @restaurant.reviews.average(:rating).to_i).times do %>
+      <i class="fa-regular fa-star"></i>
+    <% end %>
+  </p>
+  <p><%= link_to 'Home', restaurants_path, class: 'btn btn-light' %>
+    <%= link_to restaurant_path(@restaurant), data: { turbo_method: 'delete', turbo_confirm: "Delete #{@restaurant.name}?" }, class: 'btn btn-light' do %>
+      <i class="fa-solid fa-trash"></i>
+    <% end %>
+  </p>
+
+  <p><%= "address: #{@restaurant.address}" %></p>
+  <p><%= "phone_number: #{@restaurant.phone_number}"%></p>
+  <p><%= "category: #{@restaurant.category}" %></p>
+  <ul>
+  </ul>
+  <p> <%= link_to "Add review",  new_restaurant_review_path(@restaurant), class: "btn btn-primary" %></p>
+  <p>
+  <%= "review:"%>
+  </p>
+  <% if @restaurant.reviews.any? %>
+    <ul>
+      <% @restaurant.reviews.each do |review| %>
+        <li><%= review.content %></li>
+      <% end %>
+     </ul>
+  <% else %>
+  <%= "No reviews" %>
+  <% end %>
+</div>
